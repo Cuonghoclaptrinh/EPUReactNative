@@ -10,3 +10,5 @@
 ![Bai4](./assets/bai4-1.jpg)
 ![Bai4](./assets/bai4-2.jpg)
 ![Bai4](./assets/bai4-3.jpg)
+![Bai8](./assets/bai8-1.jpg)
+![Bai8](./assets/bai8-2.jpg)

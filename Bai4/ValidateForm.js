@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import home from '../buoi8/home';
+import { useNavigation } from '@react-navigation/native';
 
 const ValidateForm = () => {
+    const navigation = useNavigation();
     const [phoneNumber, setPhoneNumber] = useState('');
     const [error, setError] = useState('')
 
@@ -19,7 +22,8 @@ const ValidateForm = () => {
     }
 
     const handleContinue = () => {
-        alert(`Số điện thoại: ${phoneNumber}`);
+        alert(`Đăng nhập thành công`);
+        navigation.navigate('home');
     };
 
     const isPhoneNumberValid = phoneNumber.length >= 10;
