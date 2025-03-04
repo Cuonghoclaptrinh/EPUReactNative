@@ -12,3 +12,6 @@
 ![Bai4](./assets/bai4-3.jpg)
 ![Bai8](./assets/bai8-1.jpg)
 ![Bai8](./assets/bai8-2.jpg)
+![Bai8(3/4)](./assets/BtBuoi8-1.jpg)
+![Bai8(3/4)](./assets/BtBuoi8-2.jpg)
+![Bai8(3/4)](./assets/BtBuoi8-2.jpg)
