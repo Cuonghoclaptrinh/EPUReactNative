@@ -23,6 +23,68 @@ const discountItems = [
     { id: "2", name: "Discount Food 2", oldPrice: "$8", newPrice: "$5", discount: "-30%", image: require("../../EPUReactNative/assets/pizza.jpg") },
 ];
 
+const HeaderComponent = ({ title }) => (
+    <View style={styles.categoriesSection}>
+        <Text style={styles.sectionHeader}>{title}</Text>
+        <TouchableOpacity>
+            <Text style={styles.filterButton}>Filter</Text>
+        </TouchableOpacity>
+    </View>
+);
+
+const ItemCard = ({ item, type }) => {
+    if (type === "popular") {
+        return (
+            <View style={styles.popularItem}>
+                <Image source={item.image} style={styles.popularImage} />
+                <View style={styles.popularInfo}>
+                    <View style={styles.popularRow}>
+                        <Text style={styles.popularName}>{item.name}</Text>
+                        <Text style={styles.popularFrom}>{item.from}</Text>
+                    </View>
+                    <Text style={styles.popularPrice}>{item.price}</Text>
+                </View>
+            </View>
+        );
+    } else if (type === "sale-off") {
+        return (
+            <View style={styles.discountItem}>
+                <View style={styles.imageContainer}>
+                    <Image source={item.image} style={styles.discountImage} />
+                    <View style={styles.discountBadge}>
+                        <Text style={styles.discountText}>{item.discount}</Text>
+                    </View>
+                </View>
+                <Text style={styles.discountName}>{item.name}</Text>
+                <View style={styles.discountPriceRow}>
+                    <Text style={styles.oldPrice}>{item.oldPrice}</Text>
+                    <Text style={styles.newPrice}>{item.newPrice}</Text>
+                </View>
+            </View>
+        );
+    }
+    return (
+        <View style={styles.categoryItem}>
+            <Image source={item.image} style={styles.categoryImage} />
+            <Text style={styles.categoryName}>{item.name}</Text>
+        </View>
+    );
+};
+
+const ReusableFlatList = ({ title, data, type, headerStyle }) => (
+    <View style={styles.listContainer}>
+        <HeaderComponent title={title} headerStyle={headerStyle} />
+        <FlatList
+            data={data}
+            keyExtractor={(item, index) => item.id || index.toString()}
+            renderItem={({ item }) => <ItemCard item={item} type={type} />}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={styles.flatList}
+        />
+    </View>
+);
+
 
 const Explorer = () => {
     return (
@@ -36,87 +98,12 @@ const Explorer = () => {
                         <Ionicons name="search" style={styles.searchIcon} />
                     </View>
                 </View>
-                <View style={styles.categoriesSection}>
-                    <Text style={styles.categoriesTitle}>Top Categories</Text>
-                    <TouchableOpacity>
-                        <Text style={styles.filterButton}>Filter</Text>
-                    </TouchableOpacity>
+
+                <View style={styles.contentWrapper}>
+                    <ReusableFlatList title="Top Categories" data={categories} type="category" headerStyle={styles.topCategoriesHeader} />
+                    <ReusableFlatList title="Popular Items" data={popularItems} type="popular" headerStyle={styles.popularItemsHeader} />
+                    <ReusableFlatList title="Sale-off Items" data={discountItems} type="sale-off" headerStyle={styles.saleOffHeader} />
                 </View>
-
-
-                <FlatList
-                    horizontal
-                    data={categories}
-                    keyExtractor={(item) => item.id}
-                    renderItem={({ item }) => (
-                        <View style={styles.categoryItem}>
-                            <Image source={item.image} style={styles.categoryImage} />
-                            <Text style={styles.categoryName}>{item.name}</Text>
-                        </View>
-                    )}
-                    contentContainerStyle={styles.categoryList}
-                    showsHorizontalScrollIndicator={false}
-                />
-
-                <View style={styles.popularSection}>
-                    <Text style={styles.popularTitle}>Popular Items</Text>
-                    <TouchableOpacity>
-                        <Text style={styles.viewAllButton}>View all</Text>
-                    </TouchableOpacity>
-                </View>
-                <FlatList
-                    horizontal
-                    data={popularItems}
-                    keyExtractor={(item) => item.id}
-                    renderItem={({ item }) => (
-                        <View style={styles.popularItem}>
-                            {/* Hình ảnh món ăn */}
-                            <Image source={item.image} style={styles.popularImage} />
-
-                            {/* Thông tin món ăn */}
-                            <View style={styles.popularInfo}>
-                                <View style={styles.popularRow}>
-                                    <Text style={styles.popularName}>{item.name}</Text>
-                                    <Text style={styles.popularFrom}>{item.from}</Text>
-                                </View>
-                                <Text style={styles.popularPrice}>{item.price}</Text>
-                            </View>
-                        </View>
-                    )}
-                    contentContainerStyle={styles.popularList}
-                    showsHorizontalScrollIndicator={false}
-                />
-
-                <View style={styles.popularSection}>
-                    <Text style={styles.popularTitle}>Popular Items</Text>
-                    <TouchableOpacity>
-                        <Text style={styles.viewAllButton}>View all</Text>
-                    </TouchableOpacity>
-                </View>
-
-                <FlatList
-                    horizontal
-                    data={discountItems}
-                    keyExtractor={(item) => item.id}
-                    renderItem={({ item }) => (
-                        <View style={styles.discountItem}>
-                            <View style={styles.imageContainer}>
-                                <Image source={item.image} style={styles.discountImage} />
-                                <View style={styles.discountBadge}>
-                                    <Text style={styles.discountText}>{item.discount}</Text>
-                                </View>
-                            </View>
-
-                            <Text style={styles.discountName}>{item.name}</Text>
-                            <View style={styles.discountPriceRow}>
-                                <Text style={styles.oldPrice}>{item.oldPrice}</Text>
-                                <Text style={styles.newPrice}>{item.newPrice}</Text>
-                            </View>
-                        </View>
-                    )}
-                    contentContainerStyle={styles.discountList}
-                    showsHorizontalScrollIndicator={false}
-                />
             </View>
         </SafeAreaView>
     );
@@ -174,7 +161,14 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         alignItems: "center",
         paddingHorizontal: 16,
+
         marginBottom: 12,
+    },
+    sectionHeader: {
+        fontSize: 20,
+        paddingVertical: 12,
+        fontWeight: "bold",
+
     },
     categoriesTitle: {
         fontSize: 18,
@@ -232,6 +226,7 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
         elevation: 3,
         width: 220,
+
     },
 
     popularImage: {
@@ -324,6 +319,9 @@ const styles = StyleSheet.create({
         fontSize: 16,
     },
 
+    listContainer: {
+        marginLeft: 16
+    }
 
 });
 

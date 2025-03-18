@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 // import LoginScreen from './AppReActNative/LoginScreen'; 
 import Bai2 from './Bai2/Bai2_01';
 import NotificationList from './Bai2/Bai2_02';
@@ -7,9 +7,8 @@ import ValidateForm from './Bai4/ValidateForm';
 import home from './buoi8/home';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import AuthScreen from './btngay3-4/AuthScreen';
-import BottomTabNavigator from './btngay3-4/BottomTabNavigator';
 import { UserProvider } from './btngay3-4/UserContext';
+import RootRouter from './router';
 
 const Stack = createStackNavigator();
 
@@ -28,17 +27,12 @@ const App = () => {
   //   </NavigationContainer>
   // )
 
-  const Stack = createStackNavigator();
+
+
 
   return (
     <UserProvider>
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Login" component={AuthScreen} />
-          <Stack.Screen name="Register" component={AuthScreen} />
-          <Stack.Screen name="Explorer" component={BottomTabNavigator} />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <RootRouter />
     </UserProvider>
   );
 };

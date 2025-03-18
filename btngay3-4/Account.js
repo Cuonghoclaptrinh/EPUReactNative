@@ -1,15 +1,13 @@
 import React, { useContext } from "react";
-import { View, Text, Button, StyleSheet } from "react-native";
+import { View, Text, Button, StyleSheet, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { UserContext } from "./UserContext";
 
 const Account = ({ navigation }) => {
+    const { isLoggedIn, logout } = useContext(UserContext);
 
-    const { user, logout } = useContext(UserContext);
-
-    if (!user) {
-        // Nếu người dùng đã đăng xuất, quay về màn hình Login
-        navigation.replace("Login");
+    if (!isLoggedIn) {
+        navigation.replace("SignInScreen"); // Điều hướng khi chưa đăng nhập
         return null;
     }
 
@@ -17,11 +15,17 @@ const Account = ({ navigation }) => {
         <SafeAreaView style={styles.container}>
             <Text style={styles.title}>Account</Text>
             <View style={styles.content}>
-                <Text style={styles.name}>{user.name}</Text>
-                <Text style={styles.job}>{user.job}</Text>
-                <Text style={styles.exp}>{user.exp}</Text>
+                <Image
+                    source={{ uri: "https://imagedelivery.net/ZeGtsGSjuQe1P3UP_zk3fQ/ede24b65-497e-4940-ea90-06cc2757a200/storedata" }}
+                    style={styles.avatar}
+                />
+                <Text style={styles.name}>DO MANH CUONG</Text>
+                <Text style={styles.job}>Mobile Developer</Text>
+                <Text style={styles.exp}>
+                    I have above years of experience in native mobile app development, now I am learning React Native.
+                </Text>
                 <View style={styles.buttonContainer}>
-                    <Button title="Sign Out" onPress={() => navigation.replace("Login")} color="orange" />
+                    <Button title="Sign Out" onPress={logout} color="orange" />
                 </View>
             </View>
         </SafeAreaView>
@@ -32,9 +36,13 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#e0e0e0",
-
     },
-
+    avatar: {
+        width: 150,
+        height: 150,
+        borderRadius: 75,
+        marginBottom: 10,
+    },
     title: {
         fontSize: 24,
         fontWeight: "bold",
@@ -44,14 +52,13 @@ const styles = StyleSheet.create({
         width: "100%",
         marginBottom: 10,
     },
-
     content: {
         flex: 1,
         borderRadius: 10,
         padding: 20,
-        alignItems: "center", // Căn giữa các thành phần theo chiều ngang
-        justifyContent: "center", // Căn giữa theo chiều dọc
-        alignSelf: "center", // Đưa toàn bộ khối vào giữa màn hình
+        alignItems: "center",
+        justifyContent: "center",
+        alignSelf: "center",
     },
     name: {
         fontSize: 25,

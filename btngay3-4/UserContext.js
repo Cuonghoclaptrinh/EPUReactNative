@@ -3,18 +3,13 @@ import React, { createContext, useState } from "react";
 export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
-    const [user, setUser] = useState({
-        name: "Hung Nguyen",
-        job: "Mobile Developer",
-        exp: "I have above years of experience in native mobile app development, now I am learning React Native."
-    });
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    const logout = () => {
-        setUser(null); // Xóa thông tin người dùng khi đăng xuất
-    };
+    const logout = () => setIsLoggedIn(false);
+    const login = () => setIsLoggedIn(true);
 
     return (
-        <UserContext.Provider value={{ user, logout }}>
+        <UserContext.Provider value={{ isLoggedIn, setIsLoggedIn, login, logout }}>
             {children}
         </UserContext.Provider>
     );
